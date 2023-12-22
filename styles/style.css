@@ -1,0 +1,73 @@
+html,
+body {
+  background: #050c21 linear-gradient(45deg, #222220, #050c21);
+  background-attachment: fixed;
+  color: #fff;
+  font: normal 1em Arial;
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+#error {
+  background: red;
+  border-radius: 0 0 10px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 10px 10px;
+  padding: 5px 10px;
+  position: fixed;
+  text-align: center;
+  top: -100%;
+  transition: top 1.5s;
+  width: calc(100% - 40px);
+
+  &.show {
+    top: 0;
+  }
+}
+
+.preview-containers,
+.btns-containers {
+  padding: 20px;
+}
+
+.preview-containers {
+  display: inline-block;
+  width: 45%;
+
+  #preview-svg {
+    align-items: center;
+    background: #fff url('https://static.vecteezy.com/system/resources/previews/021/736/279/non_2x/transparent-background-4k-empty-grid-checkered-layout-wallpaper-free-vector.jpg');
+    background-size: cover;
+    justify-content: center;
+  }
+
+  output {
+    background: #fff;
+    border: solid 1px #fff;
+    color: #333;
+    display: inline-flex;
+    padding: 5px;
+    width: calc(100% - 20px);
+  }
+}
+
+label {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+input {
+  background: rgba(255, 255, 255, .0001);
+  border: solid #fff 1px;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px;
+  transition: background .3s;
+
+  &:hover {
+    background: rgba(255, 255, 255, .3);
+  }
+}
