@@ -15,6 +15,7 @@ export function App() {
   // set components states
   const [ errorText, setErrorText ] = useState('');
   const [ svg, setSvg ] = useState(null);
+  const [ svgBlobURI, setSvgBlobURI ] = useState('about:blank');
   const [ json, setJson ] = useState(null);
 
   // app structure
@@ -23,12 +24,12 @@ export function App() {
       <Error errorText={errorText} />
 
       <div className="previews">
-        <PreviewSVG svg={svg} />
+        <PreviewSVG svg={svg} svgBlobURI={svgBlobURI} />
         <PreviewJSON json={json} />
       </div>
 
       <div className="buttons">
-        <UploadSVG setSvg={setSvg} setJson={setJson} setErrorText={setErrorText} />
+        <UploadSVG setSvg={setSvg} setSvgBlobURI={setSvgBlobURI} setJson={setJson} setErrorText={setErrorText} />
         <DownloadJSON json={json} svg={svg} setErrorText={setErrorText} />
         <UploadJSON json={json} setJson={setJson} svg={svg} setErrorText={setErrorText} />
       </div>

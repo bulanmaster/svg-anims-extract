@@ -4,13 +4,14 @@
  */
 export function UploadSVG(props) {
   // upload svg components props
-  const { setSvg, setJson, setErrorText } = props;
+  const { setSvg, setSvgBlobURI, setJson, setErrorText } = props;
 
   // upload svg function
   const onUploadSVG = obj => {
     console.clear();
     // clear preview svg when attempting to upload anything
     setSvg(null);
+    setSvgBlobURI('about:blank');
     let extractedSvg = null;
     setJson(null);
 
@@ -31,8 +32,12 @@ export function UploadSVG(props) {
       setSvg(extractedSvg);
 
       // TODO parse into json and setJson(parsedJSON);
-      console.log(extractedSvg);
       setJson('{}'); // for testing purposes adding an object to the json since otherwise the other buttons dont show up
+
+      let blob = new Blob([extractedSvg], {type: svgFile.type});
+      let blobURI = URL.createObjectURL(blob);
+      setSvgBlobURI(blobURI);
+      // URL.revokeObjectURL(blobURI);
     };
     reader.onerror = err => {
       // throw error if any found

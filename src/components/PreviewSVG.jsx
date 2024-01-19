@@ -4,20 +4,14 @@
  */
 export function PreviewSVG(props) {
   // preview svg components props
-  const { svg } = props;
-
-  // create markup for dangerouslySetInnerHTML for the svg to show
-  function createMarkup() {
-    return { __html: svg };
-  }
+  const { svg, svgBlobURI } = props;
 
   // preview svg component structure
   return (
     <div className="preview-containers">
       <label htmlFor="preview-svg">Preview SVG</label>
       <br />
-      <output id="preview-svg" name="preview-svg" dangerouslySetInnerHTML={createMarkup()}>
-      </output>
+      <object id="preview-svg" name="preview-svg" type="image/svg+xml" data={svgBlobURI}>Preview SVG object</object>
     </div>
   );
 }

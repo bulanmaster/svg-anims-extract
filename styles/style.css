@@ -43,6 +43,7 @@ body {
     justify-content: center;
   }
 
+  object,
   output {
     background: #fff;
     border: solid 1px #fff;
