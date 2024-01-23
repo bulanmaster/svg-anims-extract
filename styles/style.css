@@ -21,45 +21,31 @@ body {
   top: -100%;
   transition: top 1.5s;
   width: calc(100% - 40px);
-
-  &.show {
-    top: 0;
-  }
 }
 
-.preview-containers,
-.btns-containers {
+#error.show {
+  top: 0;
+}
+
+.buttons {
+  text-align: center;
+}
+
+.btns-containers,
+.preview-containers {
   padding: 20px;
 }
 
-.preview-containers {
+.btns-containers {
   display: inline-block;
-  width: 45%;
-
-  #preview-svg {
-    align-items: center;
-    background: #fff url('https://static.vecteezy.com/system/resources/previews/021/736/279/non_2x/transparent-background-4k-empty-grid-checkered-layout-wallpaper-free-vector.jpg');
-    background-size: cover;
-    justify-content: center;
-  }
-
-  object,
-  output {
-    background: #fff;
-    border: solid 1px #fff;
-    color: #333;
-    display: inline-flex;
-    padding: 5px;
-    width: calc(100% - 20px);
-  }
 }
 
-label {
+.btns-containers label {
   cursor: pointer;
   margin-right: 10px;
 }
 
-input {
+.btns-containers input {
   background: rgba(255, 255, 255, .0001);
   border: solid #fff 1px;
   border-radius: 3px;
@@ -67,8 +53,79 @@ input {
   cursor: pointer;
   padding: 10px;
   transition: background .3s;
+}
 
-  &:hover {
-    background: rgba(255, 255, 255, .3);
-  }
+.btns-containers input:not([disabled]):hover {
+  background: rgba(255, 255, 255, .3);
+}
+
+.btns-containers input[disabled] {
+  border-color: #777;
+  color: #777;
+  cursor: no-drop;
+}
+
+.preview-containers {
+  text-align: center;
+  width: calc(100% - 40px);
+}
+
+.preview-containers #preview-json,
+.preview-containers object {
+  background: #fff;
+}
+
+.preview-containers label {
+  cursor: pointer;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.preview-containers .arrow {
+  border: solid 1px #fff;
+  border-color: transparent #fff #fff transparent;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+
+.preview-containers .arrow.up {
+  margin: -4px 10px;
+  transform: rotate(-135deg);
+}
+
+.preview-containers .arrow.down {
+  margin: 4px 10px;
+  transform: rotate(45deg);
+}
+
+.preview-x {
+  display: block;
+  overflow: hidden;
+}
+
+.preview-x.hide {
+  height: 0;
+}
+
+#preview-json {
+  color: #333;
+  font-family: monospace;
+  text-align: initial;
+  white-space: pre-wrap;
+  width: calc(100% - 20px);
+}
+
+#preview-json code {
+  border: solid 5px #fff;
+  display: block;
+}
+
+.preview-containers object {
+  background: #fff url('https://us.123rf.com/450wm/spideyspike/spideyspike1912/spideyspike191200110/135457130-square-dimension-isolated-transparent-background.jpg?ver=6');
+  border: solid 5px #fff;
+}
+
+.preview-containers object[data="about:blank"] {
+  display: none;
 }

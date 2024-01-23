@@ -1,27 +1,29 @@
+import { giveError } from './Error.jsx';
+import { emptyString, emptyDomObj, mimeTypes } from "../constants.js";
+
 /**
  * UploadSVG Component
  * @description: renders the input to upload SVG files and extracts the animation(s) from it into a JSON format
  */
 export function UploadSVG(props) {
   // upload svg components props
-  const { setSvg, setSvgBlobURI, setJson, setErrorText } = props;
+  const { setSvg, setSvgBlobURI, svgBlobURI, setJson, setErrorText } = props;
 
   // upload svg function
   const onUploadSVG = obj => {
     console.clear();
     // clear preview svg when attempting to upload anything
+    URL.revokeObjectURL(svgBlobURI);
     setSvg(null);
-    setSvgBlobURI('about:blank');
+    setSvgBlobURI(emptyDomObj);
     let extractedSvg = null;
-    setJson(null);
+    setJson({});
 
     // get file
     const svgFile = obj.target.files[0];
     // throw error if file is not of the right type
-    if (svgFile.type !== 'image/svg+xml') {
-      console.log('Error: File is not of type svg+xml');
-      setErrorText('File is not of type svg+xml');
-      setTimeout(() => { setErrorText(''); }, 10000);
+    if (svgFile.type !== mimeTypes.svg) {
+      giveError(`Error: File is not of type ${mimeTypes.svg}. It is of type ${svgFile.type}`, 'Wrong file format. Be sure you are uploading an SVG file.', setErrorText);
       return;
     }
 
@@ -31,19 +33,14 @@ export function UploadSVG(props) {
       extractedSvg = reader.result;
       setSvg(extractedSvg);
 
-      // TODO parse into json and setJson(parsedJSON);
-      setJson('{}'); // for testing purposes adding an object to the json since otherwise the other buttons dont show up
-
-      let blob = new Blob([extractedSvg], {type: svgFile.type});
-      let blobURI = URL.createObjectURL(blob);
+      const blob = new Blob([extractedSvg], {type: mimeTypes.svg});
+      const blobURI = URL.createObjectURL(blob);
       setSvgBlobURI(blobURI);
-      // URL.revokeObjectURL(blobURI);
     };
+
     reader.onerror = err => {
       // throw error if any found
-      console.log('Error: ', err);
-      setErrorText(err);
-      setTimeout(() => { setErrorText('') }, 10000);
+      giveError(err, err, setErrorText);
       return;
     };
     // read file as text
