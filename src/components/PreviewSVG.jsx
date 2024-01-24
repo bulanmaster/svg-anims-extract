@@ -19,14 +19,14 @@ export function PreviewSVG(props) {
   // extracts the animations from the SVG into a JSON
   const getSvgAnim = (ev) => {
     if (ev === undefined || ev.target === undefined) {
-      giveError(`Error: getSvgAnim ev is ${ev} and ev.target is ${ev.target}`, 'Something went wrong!', setErrorText);
+      giveError(`getSvgAnim ev is ${ev} and ev.target is ${ev.target}`, 'Error: Something went wrong!', setErrorText);
       return;
     }
 
     const svgElem = ev.target.contentDocument;
 
     if (svgElem === null || svgElem === undefined) {
-      giveError(`svgElem is ${svgElem}`, 'Something went wrong!', setErrorText);
+      giveError(`svgElem is ${svgElem}`, 'Error: Something went wrong!', setErrorText);
       return;
     }
 

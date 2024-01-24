@@ -26,7 +26,7 @@ export function UploadSVG(props) {
 
     // throw error if file is not of the right type
     if (svgFile.type !== mimeTypes.svg) {
-      giveError(`Error: File is not of type ${mimeTypes.svg}. It is of type ${svgFile.type}`, 'Wrong file format. Be sure you are uploading an SVG file.', setErrorText);
+      giveError(`File is not of type ${mimeTypes.svg}. It is of type ${svgFile.type}`, 'Error: Wrong file format. Be sure you are uploading an SVG file.', setErrorText);
       return;
     }
 
@@ -44,7 +44,7 @@ export function UploadSVG(props) {
 
     reader.onerror = err => {
       // throw error if any found
-      giveError(err, err, setErrorText);
+      giveError(err, `Error: ${err}`, setErrorText);
       return;
     };
     // read file as text
