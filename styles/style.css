@@ -105,7 +105,11 @@ body {
 }
 
 .preview-x.hide {
-  height: 0;
+  height: 1px;
+}
+
+.preview-x.hide object {
+  width: 100%;
 }
 
 #preview-json {
@@ -113,7 +117,6 @@ body {
   font-family: monospace;
   text-align: initial;
   white-space: pre-wrap;
-  width: calc(100% - 20px);
 }
 
 #preview-json code {

@@ -1,5 +1,9 @@
 import { emptyString } from "../constants.js";
 
+/**
+ * giveError utility function
+ * @description: a utility function used in multiple places in the project to show an error
+ */
 export const giveError = (consoleError, userError, setErrorText) => {
   console.log('Error: ', consoleError);
   setErrorText(userError);

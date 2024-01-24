@@ -1,10 +1,12 @@
+import { emptyDomObj, mimeTypes } from '../constants.js';
+
 /**
  * UploadJSON Component
  * @description: renders the input to upload JSON files containing SVG animation(s) and applies it to the given SVG, if possible (has the tags, ids, classes)
  */
 export function UploadJSON(props) {
   // upload json components props
-  const { json, setJson, svg, setErrorText } = props;
+  const { json, setJson, svg, svgBlobURI, setErrorText } = props;
 
   // upload json function
   const onUploadJSON = () => {
@@ -17,7 +19,7 @@ export function UploadJSON(props) {
     console.log('TODO upload JSON');
   };
 
-  return svg && json ? (
+  return svgBlobURI !== emptyDomObj && json ? (
     <div className="btns-containers">
       <label htmlFor="upload-json">Upload JSON</label>
       <input type="file" accept=".json" id="upload-json" name="upload-json" onChange={onUploadJSON} />

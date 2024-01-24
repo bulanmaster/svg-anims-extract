@@ -27,8 +27,8 @@ export function App() {
 
       <div className="buttons">
         <UploadSVG setSvg={setSvg} setSvgBlobURI={setSvgBlobURI} svgBlobURI={svgBlobURI} setJson={setJson} setErrorText={setErrorText} />
-        <DownloadJSON json={json} svg={svg} setErrorText={setErrorText} />
-        <UploadJSON json={json} setJson={setJson} svg={svg} setErrorText={setErrorText} />
+        <DownloadJSON json={json} svg={svg} svgBlobURI={svgBlobURI} setErrorText={setErrorText} />
+        <UploadJSON json={json} setJson={setJson} svg={svg} svgBlobURI={svgBlobURI} setErrorText={setErrorText} />
       </div>
 
       <div className="previews">
@@ -38,4 +38,3 @@ export function App() {
     </div>
   );
 }
-

@@ -3,7 +3,7 @@ import { emptyString, emptyDomObj, mimeTypes } from "../constants.js";
 
 /**
  * UploadSVG Component
- * @description: renders the input to upload SVG files and extracts the animation(s) from it into a JSON format
+ * @description: renders the input to upload SVG files
  */
 export function UploadSVG(props) {
   // upload svg components props
@@ -11,7 +11,12 @@ export function UploadSVG(props) {
 
   // upload svg function
   const onUploadSVG = obj => {
-    console.clear();
+    console.clear(); // TODO: delete when project is finished
+    // get file
+    const svgFile = obj.target.files[0];
+    if (svgFile === undefined) {
+      return;
+    }
     // clear preview svg when attempting to upload anything
     URL.revokeObjectURL(svgBlobURI);
     setSvg(null);
@@ -19,8 +24,6 @@ export function UploadSVG(props) {
     let extractedSvg = null;
     setJson({});
 
-    // get file
-    const svgFile = obj.target.files[0];
     // throw error if file is not of the right type
     if (svgFile.type !== mimeTypes.svg) {
       giveError(`Error: File is not of type ${mimeTypes.svg}. It is of type ${svgFile.type}`, 'Wrong file format. Be sure you are uploading an SVG file.', setErrorText);
@@ -29,10 +32,11 @@ export function UploadSVG(props) {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      // add svg to preview
+      // get SVG to make blob
       extractedSvg = reader.result;
       setSvg(extractedSvg);
 
+      // create blob URI to use to display SVG in preview
       const blob = new Blob([extractedSvg], {type: mimeTypes.svg});
       const blobURI = URL.createObjectURL(blob);
       setSvgBlobURI(blobURI);

@@ -10,13 +10,16 @@ export function PreviewJSON(props) {
   // preview json components props
   const { json, svgBlobURI } = props;
 
+  // toggle the display state of the JSON preview
   const toggleJson = () => {
     setShowJson(!showJson);
   };
 
+  // class changes for the state changing of displaying the JSON preview
   const previewJsonClasses = `preview-x${showJson ? emptyString : ' hide'}`;
   const arrowClasses = `arrow ${showJson ? 'down' : 'up'}`;
 
+  // logic for showing the JSON in the preview
   let preview = (
       <output id="preview-json" name="preview-json" className={previewJsonClasses}>
         <code>{JSON.stringify(json, undefined, 2)}</code>
