@@ -1,0 +1,1 @@
+{"path.path":{"animate":{"options":{"id":"animate","duration":5000,"easing":"ease","delay":0,"iterations":"infinite","direction":"normal","fill":"forwards"},"keyframes":[{"offset":0,"easing":"ease","composite":"replace","strokeDashoffset":"-500px","computedOffset":0},{"offset":1,"easing":"ease","composite":"auto","strokeDashoffset":"500px","computedOffset":1}]}}}
