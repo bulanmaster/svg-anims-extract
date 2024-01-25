@@ -1,3 +1,4 @@
+import { giveError } from './Error.jsx';
 import { emptyDomObj, mimeTypes } from '../constants.js';
 
 /**
@@ -6,23 +7,42 @@ import { emptyDomObj, mimeTypes } from '../constants.js';
  */
 export function UploadJSON(props) {
   // upload json components props
-  const { json, setJson, svg, svgBlobURI, setErrorText } = props;
+  const { json, setJson, svgBlobURI, setErrorText } = props;
 
   // upload json function
-  const onUploadJSON = () => {
-    /*
-       TODO
-     - get uploaded json contents as text
-     - parse it into css animation(s) and apply to svg
-     - keep in mind tags, ids, classes
-    */
-    console.log('TODO upload JSON');
+  const getJson = obj => {
+    // get file
+    const jsonFile = obj.target.files[0];
+    if (jsonFile === undefined) {
+      return;
+    }
+    let extractedJson = {};
+    // throw error if file is not of the right type
+    if (jsonFile.type !== mimeTypes.json) {
+      giveError(`File is not of type ${mimeTypes.json}. It is of type ${jsonFile.type}`, 'Error: Wrong file format. Be sure you are uploading a JSON file.', setErrorText);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // get JSON
+      extractedJson = reader.result;
+      setJson(JSON.parse(extractedJson));
+    };
+
+    reader.onerror = err => {
+      // throw error if any found
+      giveError(err, `Error: ${err}`, setErrorText);
+      return;
+    };
+    // read file as text
+    reader.readAsText(jsonFile);
   };
 
   return svgBlobURI !== emptyDomObj && json ? (
     <div className="btns-containers">
       <label htmlFor="upload-json">Upload JSON</label>
-      <input type="file" accept=".json" id="upload-json" name="upload-json" onChange={onUploadJSON} />
+      <input type="file" accept=".json" id="upload-json" name="upload-json" onChange={getJson} />
     </div>
   ) : null;
 }

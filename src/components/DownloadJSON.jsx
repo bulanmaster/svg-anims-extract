@@ -6,7 +6,7 @@ import { emptyDomObj, mimeTypes } from '../constants.js';
  */
 export function DownloadJSON(props) {
   // download json components props
-  const { json, svg, svgBlobURI, setErrorText } = props;
+  const { json, svgBlobURI, setErrorText } = props;
 
   // download json function
   const onDownloadJSON = () => {

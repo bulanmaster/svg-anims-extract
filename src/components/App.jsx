@@ -26,13 +26,13 @@ export function App() {
       <Error errorText={errorText} />
 
       <div className="buttons">
-        <UploadSVG setSvg={setSvg} setSvgBlobURI={setSvgBlobURI} svgBlobURI={svgBlobURI} setJson={setJson} setErrorText={setErrorText} />
-        <DownloadJSON json={json} svg={svg} svgBlobURI={svgBlobURI} setErrorText={setErrorText} />
-        <UploadJSON json={json} setJson={setJson} svg={svg} svgBlobURI={svgBlobURI} setErrorText={setErrorText} />
+        <UploadSVG svg={svg} setSvgBlobURI={setSvgBlobURI} svgBlobURI={svgBlobURI} setJson={setJson} setErrorText={setErrorText} />
+        <DownloadJSON json={json} svgBlobURI={svgBlobURI} setErrorText={setErrorText} />
+        <UploadJSON json={json} setJson={setJson} svgBlobURI={svgBlobURI} setErrorText={setErrorText} />
       </div>
 
       <div className="previews">
-        <PreviewSVG svg={svg} svgBlobURI={svgBlobURI} setErrorText={setErrorText} setJson={setJson} />
+        <PreviewSVG svg={svg} setSvg={setSvg} svgBlobURI={svgBlobURI} setErrorText={setErrorText} setJson={setJson} json={json} />
         <PreviewJSON json={json} svgBlobURI={svgBlobURI} />
       </div>
     </div>

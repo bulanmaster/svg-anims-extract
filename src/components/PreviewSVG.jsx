@@ -1,25 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { giveError } from './Error.jsx';
 import { emptyString, mimeTypes } from "../constants.js";
 
 /**
  * PreviewSVG Component
- * @description: renders the preview for the uploaded SVG and extracts the animations into a JSON
+ * @description: renders the preview for the uploaded SVG
  */
 export function PreviewSVG(props) {
   const [ showSvg, setShowSvg ] = useState(true);
   // preview svg components props
-  const { svg, svgBlobURI, setErrorText, setJson } = props;
+  const { svg, setSvg, svgBlobURI, setErrorText, setJson, json } = props;
 
   // toggle the display state of the SVG preview
   const toggleSvg = () => {
     setShowSvg(!showSvg);
   };
 
-  // extracts the animations from the SVG into a JSON
-  const getSvgAnim = (ev) => {
+  // gets the SVG DOM element
+  const getSvgDomElem = (ev) => {
     if (ev === undefined || ev.target === undefined) {
-      giveError(`getSvgAnim ev is ${ev} and ev.target is ${ev.target}`, 'Error: Something went wrong!', setErrorText);
+      giveError(`getSvgDomElem ev is ${ev} and ev.target is ${ev.target}`, 'Error: Something went wrong!', setErrorText);
       return;
     }
 
@@ -30,50 +30,39 @@ export function PreviewSVG(props) {
       return;
     }
 
-    const tempJson = {};
-
-    // counter for duplicates
-    let nthElem = 0;
-    // get all nodes besides the style one
-    const allNodes = svgElem.querySelectorAll('*:not(style)');
-    for (const currentNode of allNodes) {
-      const currentNodeAnims = currentNode.getAnimations();
-      // if the current node has any animations
-      if (currentNodeAnims.length > 0) {
-        // form current nodes name adding tag, id and class names together and the counter (tag#id.class.names|counter)
-        let key = `${currentNode.nodeName}`;
-        key += currentNode.id ? `#${currentNode.id}` : emptyString;
-        if (currentNode.classList.length > 0) {
-          key += `.${currentNode.classList.value.replaceAll(' ', '.')}`;
-        }
-        key += `|${nthElem}`;
-
-        tempJson[key] = {};
-
-        const currentNodeComputedAnims = window.getComputedStyle(currentNode).getPropertyValue('animation').split(',');
-        for (const currentNodeComputedAnim of currentNodeComputedAnims) {
-          const x = currentNodeComputedAnim.trim().split(' ');
-          tempJson[key][x[7]] = {
-            'duration': x[0],
-            'timing-function': x[1],
-            'delay': x[2],
-            'iteration-count': x[3],
-            'direction': x[4],
-            'fill-mode': x[5],
-            'play-state': x[6]
-          };
-        }
-
-        // getting keyframes for each animation of the current node
-        for (const anim of currentNodeAnims) {
-          tempJson[key][anim.animationName]['keyframes'] = anim.effect.getKeyframes();
-        }
-      }
-      nthElem++;
-    }
-
-    setJson(tempJson);
+    setSvg(svgElem);
   };
+
+  // TODO: fix animations
+  // applies animations from uploaded JSON onto displayed SVG
+  const animateSvg = () => {
+    for (const elemKey in json) {
+      const elems = svg.querySelectorAll(elemKey);
+      const animName = Object.keys(json[elemKey])[0];
+      if (json[elemKey][animName]['options']['iterations'] === 'infinite') {
+        json[elemKey][animName]['options']['iterations'] = Infinity;
+      }
+      // console.log(json[elemKey][animName]['keyframes'], json[elemKey][animName]['options']);
+      for (const elem of elems) {
+        elem.animate(json[elemKey][animName]['keyframes'], json[elemKey][animName]['options']);
+        // elem.style.animation = `${animName} ${json[elemKey][animName]['duration']} ${json[elemKey][animName]['easing']} ${json[elemKey][animName]['delay']} ${json[elemKey][animName]['iterations']} ${json[elemKey][animName]['direction']} ${json[elemKey][animName]['fill']}`;
+        // console.log('anims', elem.getAnimations());
+        // console.log(window.getComputedStyle(elem).getPropertyValue('animation'));
+      }
+    }
+  };
+
+  let prevSvgBlobURI = useRef(svgBlobURI);
+  let prevJson = useRef(json);
+
+  useEffect(() => {
+    // if svg didnt change, but json did
+    if (prevSvgBlobURI.current === svgBlobURI && JSON.stringify(prevJson.current) !== JSON.stringify(json)) {
+      animateSvg();
+    }
+    prevSvgBlobURI.current = svgBlobURI;
+    prevJson.current = json;
+  }, [json]);
 
   // class changes for the state changing of displaying the SVG preview
   const previewSvgClasses = `preview-x${showSvg ? emptyString : ' hide'}`;
@@ -84,7 +73,7 @@ export function PreviewSVG(props) {
     <div className="preview-containers">
       <label htmlFor="preview-svg" onClick={toggleSvg}>Preview SVG<div className={arrowClasses}></div></label>
       <output id="preview-svg" name="preview-svg" className={previewSvgClasses}>
-        <object type={mimeTypes.svg} data={svgBlobURI} onLoad={getSvgAnim}>Preview SVG object</object>
+        <object type={mimeTypes.svg} data={svgBlobURI} onLoad={getSvgDomElem}>Preview SVG object</object>
       </output>
     </div>
   );
