@@ -38,16 +38,14 @@ export function PreviewSVG(props) {
   const animateSvg = () => {
     for (const elemKey in json) {
       const elems = svg.querySelectorAll(elemKey);
-      const animName = Object.keys(json[elemKey])[0];
-      if (json[elemKey][animName]['options']['iterations'] === 'infinite') {
-        json[elemKey][animName]['options']['iterations'] = Infinity;
-      }
-      // console.log(json[elemKey][animName]['keyframes'], json[elemKey][animName]['options']);
-      for (const elem of elems) {
-        elem.animate(json[elemKey][animName]['keyframes'], json[elemKey][animName]['options']);
-        // elem.style.animation = `${animName} ${json[elemKey][animName]['duration']} ${json[elemKey][animName]['easing']} ${json[elemKey][animName]['delay']} ${json[elemKey][animName]['iterations']} ${json[elemKey][animName]['direction']} ${json[elemKey][animName]['fill']}`;
-        // console.log('anims', elem.getAnimations());
-        // console.log(window.getComputedStyle(elem).getPropertyValue('animation'));
+      const animNames = Object.keys(json[elemKey]);
+      for (const animName of animNames) {
+        if (json[elemKey][animName]['options']['iterations'] === 'infinite') {
+          json[elemKey][animName]['options']['iterations'] = Infinity;
+        }
+        for (const elem of elems) {
+          elem.animate(json[elemKey][animName]['keyframes'], json[elemKey][animName]['options']);
+        }
       }
     }
   };
