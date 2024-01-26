@@ -42,7 +42,7 @@ export function UploadJSON(props) {
   return svgBlobURI !== emptyDomObj && json ? (
     <div className="btns-containers">
       <label htmlFor="upload-json">Upload JSON</label>
-      <input type="file" accept=".json" id="upload-json" name="upload-json" onChange={getJson} />
+      <input type="file" accept={mimeTypes.json} id="upload-json" name="upload-json" onChange={getJson} />
     </div>
   ) : null;
 }

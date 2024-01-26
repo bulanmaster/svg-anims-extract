@@ -85,7 +85,14 @@ export function UploadSVG(props) {
 
           // getting keyframes for each animation of the current node
           for (const anim of currentNodeAnims) {
-            tempJson[key][anim.animationName]['keyframes'] = anim.effect.getKeyframes();
+            let currentAnimKeyframes = anim.effect.getKeyframes();
+            const newCurrentAnimKeyframes = [];
+            // remove computedOffset since it is not used => smaller JSON
+            for (const currentAnimKeyframe of currentAnimKeyframes) {
+              let {['computedOffset']: _, ...rest} = currentAnimKeyframe;
+              newCurrentAnimKeyframes.push(rest);
+            }
+            tempJson[key][anim.animationName]['keyframes'] = newCurrentAnimKeyframes;
           }
         }
       }
@@ -101,7 +108,7 @@ export function UploadSVG(props) {
   return (
     <div className="btns-containers">
       <label htmlFor="upload-svg">Upload SVG</label>
-      <input type="file" accept=".svg" id="upload-svg" name="upload-svg" onChange={getSvgBlobURI} />
+      <input type="file" accept={mimeTypes.svg} id="upload-svg" name="upload-svg" onChange={getSvgBlobURI} />
     </div>
   );
 }
